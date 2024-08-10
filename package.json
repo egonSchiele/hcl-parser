@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "tarsec": "^0.0.18"
+    "tarsec": "^0.0.18",
+    "vitest": "^2.0.5"
   }
 }

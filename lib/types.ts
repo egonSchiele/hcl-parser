@@ -1,35 +1,28 @@
-// Define the possible types for  values
-type Value = string | number | boolean | List | Map;
+export type Value = string | number | boolean | List | Map;
 
-// Define a type for lists
-interface List extends Array<Value> {}
+export interface List extends Array<Value> {}
 
-// Define a type for maps
-interface Map {
+export type Map = {
   [key: string]: Value;
-}
+};
 
-// Define a type for attributes
-interface Attribute {
+export type Attribute = {
   name: string;
   value: Value;
-}
+};
 
-// Define a type for blocks
-interface Block {
+export type Block = {
   type: string;
   labels?: string[];
   body: Body;
-}
+};
 
-// Define a type for the body of a block
-interface Body {
+export type Body = {
   attributes: Attribute[];
   blocks: Block[];
-}
+};
 
-// Define a type for the entire document
-type Document = Block[];
+export type Document = Block[];
 
-type Comment = string;
-// type ForExpression = string;
+export type Comment = string;
+// export type ForExpression = string;
