@@ -1,3 +1,5 @@
+import { prettify } from "./renderer/prettify.js";
+import { quote, isFilter } from "./renderer/utils.js";
 import {
   BaseBlock,
   Block,
@@ -11,7 +13,7 @@ import {
 } from "./types.js";
 
 export default function renderHCL(hclDocument: HCLDocument): string {
-  return hclDocument.map(renderBlock).join("\n");
+  return prettify(hclDocument.map(renderBlock).join("\n\n"));
 }
 
 export function renderBlock(block: Block): string {
@@ -22,17 +24,12 @@ export function renderBlock(block: Block): string {
   }
 }
 
-function isFilter(block: Block): block is Filter {
-  return block.type === "filter";
-}
-
-function quote(value: string): string {
-  return `"${value}"`;
-}
-
 export function renderBody(body: HCLBody): string {
-  return `${renderAttributes(body.attributes)}
-  ${body.blocks.map(renderBlock).join("\n")}`;
+  const all = [
+    renderAttributes(body.attributes),
+    ...body.blocks.map(renderBlock),
+  ];
+  return all.join("\n");
 }
 
 export function renderAttributes(attributes: Attributes): string {
@@ -50,7 +47,7 @@ export function renderFilter(filter: Filter): string {
 export function renderBaseBlock(block: BaseBlock): string {
   return `${block.type} ${block.labels?.map(quote).join(" ")} {
          ${renderBody(block.body)}
-    }`;
+}`;
 }
 
 export function renderValue(value: Value): string {
