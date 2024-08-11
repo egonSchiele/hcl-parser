@@ -3,26 +3,36 @@ export type Value = string | number | boolean | List | Map;
 export interface List extends Array<Value> {}
 
 export type Map = {
+  type: "map";
+  values: {
+    [key: string]: Value;
+  };
+};
+
+export type Attributes = {
   [key: string]: Value;
 };
 
-export type Attribute = {
-  name: string;
-  value: Value;
-};
-
-export type Block = {
+export type BaseBlock = {
   type: string;
   labels?: string[];
-  body: Body;
+  body: HCLBody;
 };
 
-export type Body = {
-  attributes: Attribute[];
+export type Filter = {
+  type: "filter";
+  name: string;
+  values: string[];
+};
+
+export type Block = BaseBlock | Filter;
+
+export type HCLBody = {
+  attributes: Attributes;
   blocks: Block[];
 };
 
-export type Document = Block[];
+export type HCLDocument = Block[];
 
 export type Comment = string;
 // export type ForExpression = string;
